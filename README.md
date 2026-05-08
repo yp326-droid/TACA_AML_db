@@ -110,7 +110,7 @@ TCGA_AML_db/
         ├── SQL_insert_consequence.txt
         ├── SQL_insert_experiment.txt
         ├── SQL_insert_gene.txt
-        ├── SQL_insert_gene_expression.sql
+        ├── SQL_insert_gene_expression.sql (excluded, see note)
         ├── SQL_insert_mutation.txt
         ├── SQL_insert_patient.txt
         ├── SQL_insert_patient_condition.txt
