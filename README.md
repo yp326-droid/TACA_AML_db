@@ -162,3 +162,4 @@ Run the Cypher scripts in `neo4j/Neo4j scripts/Neo4j cypher commands/` in Neo4j 
 ## Limitations
 1. Copy number alteration (CNA), DNA methylation, and RPKM RNA-seq data were excluded
 2. The gene expression SQL insert file exceeds GitHub's 100MB file size limit and must be regenerated locally
+3. The virtual machine environment used to construct and host the database cannot be provided due to authorization and licensing restrictions.
