@@ -149,9 +149,9 @@ All DML scripts are located in `sql/TCGA_AML_db_DML_commands/`.
 > **Note:** `SQL_insert_gene_expression.sql` is excluded from this repository due to GitHub's 100MB file size limit. The gene expression data can be regenerated from the raw TCGA RSEM file in `data/TCGA_AML_db raw data/data_mrna_seq_v2_rsem.txt` using the cleaning scripts.
 
 ## Neo4j Graph Database Recreation Instructions
-Run the Cypher scripts in `neo4j/Neo4j scripts/Neo4j cypher commands/` in Neo4j browser following this order:
-1. `neo4j_import.cypher` — creates nodes and relationships
-2. `neo4j_chemistry.cypher` — adds amino acid biochemical properties
+Run the Cypher scripts in the Neo4j browser following this order:
+1. `neo4j/cypher_commands/neo4j_import.cypher` — creates nodes and relationships
+2. `neo4j/cypher_commands/neo4j_chemistry.cypher` — adds amino acid biochemical properties
 3. `neo4j/Neo4j datasets/generate_neo4j_cypher.py` — import the pre-fetched annotations
 
 ## Documentation and Diagrams 
