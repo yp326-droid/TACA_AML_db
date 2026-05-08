@@ -119,7 +119,7 @@ TCGA_AML_db/
         └── SQL_insert_treatment.txt
 ```
 
-## MySQL Recreation Instructions
+## MySQL Relational Database Recreation Instructions
 1. Create the database in phpMyAdmin using SQL script: 
    ```
    CREATE DATABASE TCGA_AML_db;
