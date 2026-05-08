@@ -18,7 +18,7 @@ TCGA_AML_db/
 ├── README.md
 │
 ├── data/
-│   ├── raw_data/
+│   ├── raw_data/ ## Original unmodified TCGA Firehose Legacy files
 │   │   ├── clinical/
 │   │   │   ├── data_clinical_patient.txt
 │   │   │   ├── data_clinical_sample.txt
@@ -66,21 +66,21 @@ TCGA_AML_db/
 │   │       ├── meta_study.txt
 │   │       └── README.txt
 │   │
-│   └── cleaned_data/
+│   └── cleaned_data/ ## Cleaned versions of data
 │       ├── data_clinical_patient.csv
 │       ├── data_clinical_sample.csv
 │       ├── data_mrna_seq_v2_rsem_mismatch_removed.csv
 │       └── data_mutations_mismatch_removed.csv
 │
-├── diagrams/
+├── diagrams/ ## Database schema diagrams, including the ER-diagram for the MySQL relational database and screenshots of the Neo4j structures
 │   ├── TCGA_AML_db_ERD.png
 │   ├── Neo4j_overview.png
 │   └── neo4j_SNP.png
 │
-├── docs/
+├── docs/ ## Full project documentation
 │   └── TCGA_AML_database_documentation.pdf
 │
-├── neo4j/
+├── neo4j/ ## Everything needed to build the Neo4j graph database
 │   ├── datasets/
 │   │   ├── SNPs_patients_genes.csv
 │   │   └── dbsnp_annotations.cypher
@@ -93,14 +93,14 @@ TCGA_AML_db/
 │       ├── neo4j_import.cypher
 │       └── neo4j_chemistry.cypher
 │
-├── scripts/
+├── scripts/ ## Python scripts used to clean and prepare the raw data
 │   └── data_cleaning/
 │       ├── Find_mutationrsem_mismatches.py
 │       ├── Remove_mutationrsem_mismatches.py
 │       ├── Hugo_symbol_fixation.py
 │       └── patient_data_cleaning.py
 │
-└── sql/
+└── sql/ ## SQL commands that define the MySQL relational database
     ├── DDL_TCGA_AML_db.txt
     │
     └── DML_commands/
