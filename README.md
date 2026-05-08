@@ -110,7 +110,7 @@ TCGA_AML_db/
         ├── SQL_insert_consequence.txt
         ├── SQL_insert_experiment.txt
         ├── SQL_insert_gene.txt
-        ├── SQL_insert_gene_expression.sql (excluded, see note)
+        ├── SQL_insert_gene_expression.sql *(excluded, see note below)*
         ├── SQL_insert_mutation.txt
         ├── SQL_insert_patient.txt
         ├── SQL_insert_patient_condition.txt
@@ -162,4 +162,5 @@ Run the Cypher scripts in `neo4j/Neo4j scripts/Neo4j cypher commands/` in Neo4j 
 ## Limitations
 1. Copy number alteration (CNA), DNA methylation, and RPKM RNA-seq data were excluded
 2. The gene expression SQL insert file exceeds GitHub's 100MB file size limit and must be regenerated locally
-3. The virtual machine environment used to construct and host the database cannot be provided due to authorization and licensing restrictions.
+3. The virtual machine environment used to construct and host the database cannot be provided due to authorization and licensing restrictions
+4. SQL scripts were stored in .txt format instead of standard .sql files
