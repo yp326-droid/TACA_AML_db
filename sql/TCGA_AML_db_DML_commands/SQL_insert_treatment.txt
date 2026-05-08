@@ -1,0 +1,19 @@
+-- ============================================================
+-- DML: INSERT INTO treatment
+-- Source: data_clinical_patient.csv
+-- Unique treatment combinations: 5
+-- Deduplicated: 200 patients map to 5 treatment rows
+-- patient_condition will reference these via treatment_id FK
+-- ============================================================
+
+INSERT INTO treatment (
+    treatment_id,
+    atra_exposure,
+    neoadjuvant_therapy_type,
+    administered_prior_to_resection_text
+) VALUES
+    (1, NULL, 'No', NULL),
+    (2, NULL, 'Yes', NULL),
+    (3, 'NO', 'No', NULL),
+    (4, 'NO', 'Yes', NULL),
+    (5, 'YES', 'No', NULL);

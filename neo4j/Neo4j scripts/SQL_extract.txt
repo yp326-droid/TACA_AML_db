@@ -1,0 +1,17 @@
+SELECT
+    m.dbsnp_rs,
+    g.hugo_symbol,
+    m.variant_type,
+    m.hgvsp_short,
+    c.consequence,
+    p.patient_tcga_id
+FROM mutation m
+LEFT JOIN gene g ON m.gene_id = g.gene_id
+LEFT JOIN cancer_sample cs ON m.cancer_sample_id = cs.cancer_sample_id
+LEFT JOIN patient p ON cs.patient_id = p.patient_id
+LEFT JOIN consequence c ON m.consequence_id = c.consequence_id
+WHERE g.hugo_symbol IS NOT NULL
+  AND m.dbsnp_rs IS NOT NULL
+  AND m.dbsnp_rs <> ''
+  AND m.dbsnp_rs LIKE 'rs%'
+ORDER BY m.dbsnp_rs;

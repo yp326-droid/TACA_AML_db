@@ -1,0 +1,214 @@
+-- =========================
+-- 1. Independent lookup tables
+-- =========================
+ 
+CREATE TABLE consequence (
+    consequence_id INT PRIMARY KEY,
+    consequence VARCHAR(255)
+);
+ 
+CREATE TABLE allele (
+    allele_id INT PRIMARY KEY,
+    reference_allele VARCHAR(255),
+    tumor_allele_seq_1 VARCHAR(255),
+    tumor_allele_seq_2 VARCHAR(255),
+    match_norm_seq_allele1 VARCHAR(255),
+    match_norm_seq_allele2 VARCHAR(255),
+    tumor_validation_allele1 VARCHAR(255),
+    tumor_validation_allele2 VARCHAR(255),
+    match_norm_validation_allele1 VARCHAR(255),
+    match_norm_validation_allele2 VARCHAR(255)
+);
+ 
+CREATE TABLE transcript (
+    transcript_id VARCHAR(100) PRIMARY KEY,
+    refseq VARCHAR(255),
+    transcript_error VARCHAR(255),
+    transcript_version VARCHAR(100),
+    transcript_name VARCHAR(255),
+    transcript_source VARCHAR(255),
+    transcript_status VARCHAR(100)
+);
+ 
+CREATE TABLE experiment (
+    experiment_id INT PRIMARY KEY,
+    tumor_sample_barcode VARCHAR(255),
+    matched_norm_sample_barcode VARCHAR(255),
+    center VARCHAR(255),
+    sequencer VARCHAR(255),
+    sequence_source VARCHAR(255),
+    sequence_phase VARCHAR(255),
+    bam_file VARCHAR(500),
+    score INT,
+    validation_method VARCHAR(255),
+    validation_status VARCHAR(255),
+    verification_status VARCHAR(255)
+);
+ 
+CREATE TABLE survival_record (
+    survival_record_id INT PRIMARY KEY,
+    os_status VARCHAR(100),
+    os_months VARCHAR(50)
+);
+ 
+CREATE TABLE treatment (
+    treatment_id INT PRIMARY KEY,
+    atra_exposure VARCHAR(255),
+    neoadjuvant_therapy_type VARCHAR(255),
+    administered_prior_to_resection_text VARCHAR(255)
+);
+ 
+-- =========================
+-- 2. Patient table
+-- =========================
+ 
+CREATE TABLE patient (
+    patient_id INT PRIMARY KEY,
+    patient_tcga_id VARCHAR(100),
+    other_patient_id VARCHAR(255),
+    sex VARCHAR(50),
+    race_category VARCHAR(100),
+    ethnicity_category VARCHAR(100)
+);
+ 
+-- =========================
+-- 3. Gene table (depends on transcript)
+-- =========================
+ 
+CREATE TABLE gene (
+    gene_id INT PRIMARY KEY,
+    transcript_id VARCHAR(100),
+    ncbi_build VARCHAR(100),
+    entrez_gene_id VARCHAR(100),
+    hugo_symbol VARCHAR(100),
+    all_domains TEXT,
+    domain TEXT,
+    CONSTRAINT fk_gene_transcript
+        FOREIGN KEY (transcript_id) REFERENCES transcript(transcript_id)
+);
+ 
+-- =========================
+-- 4. Cancer sample (depends on patient)
+-- =========================
+ 
+CREATE TABLE cancer_sample (
+    cancer_sample_id INT PRIMARY KEY,
+    patient_id INT,
+    sample_id VARCHAR(255),
+    other_sample_id VARCHAR(255),
+    is_ffpe VARCHAR(50),
+    primary_site VARCHAR(255),
+    sample_type VARCHAR(255),
+    vial_number VARCHAR(100),
+    somatic_status VARCHAR(100),
+    tmb_nonsynonymous FLOAT,
+    CONSTRAINT fk_cancer_sample_patient
+        FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+);
+ 
+-- =========================
+-- 5. Gene expression (depends on gene + cancer_sample)
+-- =========================
+ 
+CREATE TABLE gene_expression (
+    gene_expression_id INT PRIMARY KEY,
+    gene_id INT NOT NULL,
+    cancer_sample_id INT NOT NULL,
+    rsem_value FLOAT,
+    CONSTRAINT fk_ge_gene
+        FOREIGN KEY (gene_id) REFERENCES gene(gene_id),
+    CONSTRAINT fk_ge_sample
+        FOREIGN KEY (cancer_sample_id) REFERENCES cancer_sample(cancer_sample_id)
+);
+ 
+-- =========================
+-- 6. Mutation (depends on cancer_sample, allele, gene,
+--    consequence, experiment)
+-- =========================
+ 
+CREATE TABLE mutation (
+    mutation_id INT PRIMARY KEY,
+    cancer_sample_id INT,
+    allele_id INT,
+    gene_id INT,
+    consequence_id INT,
+    experiment_id INT,
+    mutation_status VARCHAR(255),
+    chromosome VARCHAR(50),
+    codons VARCHAR(255),
+    stop INT,
+    start_position INT,
+    end_position INT,
+    strand VARCHAR(20),
+    variant_classification VARCHAR(255),
+    variant_type VARCHAR(100),
+    amino_acid_change VARCHAR(255),
+    c_position VARCHAR(100),
+    protein_position INT,
+    ucsc_cons FLOAT,
+    trv_type VARCHAR(100),
+    dbsnp_rs VARCHAR(100),
+    hgvsc VARCHAR(255),
+    hgvsp VARCHAR(255),
+    hgvsp_short VARCHAR(255),
+    normal_vaf_wu VARCHAR(100),
+    tumor_vaf_wu VARCHAR(100),
+    rna_ref_reads_wu VARCHAR(100),
+    t_ref_count INT,
+    t_alt_count INT,
+    n_ref_count INT,
+    n_alt_count INT,
+    CONSTRAINT fk_mutation_sample
+        FOREIGN KEY (cancer_sample_id) REFERENCES cancer_sample(cancer_sample_id),
+    CONSTRAINT fk_mutation_allele
+        FOREIGN KEY (allele_id) REFERENCES allele(allele_id),
+    CONSTRAINT fk_mutation_gene
+        FOREIGN KEY (gene_id) REFERENCES gene(gene_id),
+    CONSTRAINT fk_mutation_consequence
+        FOREIGN KEY (consequence_id) REFERENCES consequence(consequence_id),
+    CONSTRAINT fk_mutation_experiment
+        FOREIGN KEY (experiment_id) REFERENCES experiment(experiment_id)
+);
+ 
+-- =========================
+-- 7. Patient condition (depends on patient, treatment,
+--    survival_record)
+-- =========================
+ 
+CREATE TABLE patient_condition (
+    patient_condition_id INT PRIMARY KEY,
+    treatment_id INT,
+    survival_record_id INT,
+    patient_id INT,
+    initial_pathologic_dx_year INT,
+    history_other_malignancy VARCHAR(255),
+    history_neoadjuvant_trtyn VARCHAR(255),
+    diagnosis_age INT,
+    abnormal_lymphocyte_percent INT,
+    basophils_cell_count INT,
+    blast_count INT,
+    cytogenetic_abnormality_type VARCHAR(255),
+    fab VARCHAR(100),
+    platelet_count_preresection INT,
+    CONSTRAINT fk_patient_condition_treatment
+        FOREIGN KEY (treatment_id) REFERENCES treatment(treatment_id),
+    CONSTRAINT fk_patient_condition_survival
+        FOREIGN KEY (survival_record_id) REFERENCES survival_record(survival_record_id),
+    CONSTRAINT fk_patient_condition_patient
+        FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+);
+ 
+-- =========================
+-- 8. Cancer type (depends on cancer_sample +
+--    patient_condition)
+-- =========================
+ 
+CREATE TABLE cancer_type (
+    cancer_type_id INT PRIMARY KEY,
+    cancer_sample_id INT,
+    cancer_type VARCHAR(255),
+    cancer_type_detailed VARCHAR(255),
+    oncotree_code VARCHAR(100),
+    CONSTRAINT fk_cancer_type_sample
+        FOREIGN KEY (cancer_sample_id) REFERENCES cancer_sample(cancer_sample_id),
+);

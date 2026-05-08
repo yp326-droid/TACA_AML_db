@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+sql/TCGA_AML_db_DML_commands/SQL_insert_gene_expression.sql
