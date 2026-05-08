@@ -130,7 +130,7 @@ A relational (MySQL) and graph (Neo4j) database for Acute Myeloid Leukemia (AML)
    - SQL_insert_cancer_type.txt
    - SQL_insert_gene_expression.sql *(see note below)*
    - SQL_insert_mutation.txt
-   - 
+     
 All DML scripts are located in `sql/TCGA_AML_db_DML_commands/`.
 > **Note:** `SQL_insert_gene_expression.sql` is excluded from this repository due to GitHub's 100MB file size limit. The gene expression data can be regenerated from the raw TCGA RSEM file in `data/TCGA_AML_db raw data/data_mrna_seq_v2_rsem.txt` using the cleaning scripts.
 
