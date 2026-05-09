@@ -4,6 +4,11 @@ A relational database for Acute Myeloid Leukemia (AML) data from The Cancer Geno
 # Project Summary
 A relational (MySQL) and graph (Neo4j) database for Acute Myeloid Leukemia (AML) data from The Cancer Genome Atlas (TCGA) Firehose Legacy pipeline. The database integrates patient demographics, sample records, mutation profiles, and RSEM gene expression data from 200 AML patients, enabling analysis of mutation-gene expression relationships and gaining meaningful biological insights.
 
+## Data Sources
+This project uses publicly available AML datasets obtained from the cBioPortal for Cancer Genomics study: Acute Myeloid Leukemia (TCGA, Firehose Legacy)
+Link to the study:
+[Acute Myeloid Leukemia (TCGA, Firehose Legacy)](https://www.cbioportal.org/study/summary?id=laml_tcga)
+
 ## Tools and Technologies
 - **DBMS:** MySQL 9.5.0, Neo4j
 - **Administration:** phpMyAdmin 5.2.3
