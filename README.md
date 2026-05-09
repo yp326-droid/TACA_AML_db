@@ -122,6 +122,7 @@ TCGA_AML_db/
 ```
 
 ## MySQL Relational Database Recreation Instructions
+### Method 1 — Reconstruct Database from DDL and DML Scripts
 1. Create the database in phpMyAdmin using SQL script: 
    ```
    CREATE DATABASE TCGA_AML_db;
@@ -149,13 +150,42 @@ TCGA_AML_db/
      
 All DML scripts are located in `sql/TCGA_AML_db_DML_commands/`.
 > **Note:** `SQL_insert_gene_expression.sql` is excluded from this repository due to GitHub's 100MB file size limit. The gene expression data can be regenerated from the raw TCGA RSEM file in `data/TCGA_AML_db raw data/data_mrna_seq_v2_rsem.txt` using the cleaning scripts.
-
+### Method 2 — Restore Full Database from Compressed SQL Export
+The entire MySQL relational database can also be reconstructed directly from the compressed SQL export: TCGA_AML_db.sql.gz
+1. First, decompress the file:
+   ```
+   gunzip TCGA_AML_db.sql.gz
+   ```
+2. Then load the SQL code in phpMyAdmin
+    ```
+   SOURCE TCGA_AML_db.sql;
+   ```
+    
 ## Neo4j Graph Database Recreation Instructions
+### Method 1 — Reconstruct Neo4j Database from Cypher Scripts
 Run the Cypher scripts in the Neo4j browser following this order:
 1. `neo4j/cypher_commands/neo4j_import.cypher` — creates nodes and relationships
 2. `neo4j/cypher_commands/neo4j_chemistry.cypher` — adds amino acid biochemical properties
 3. `neo4j/Neo4j datasets/generate_neo4j_cypher.py` — import the pre-fetched annotations
-
+### Method 2 - Restore Full Neo4j Graph Database from Dump File
+The complete Neo4j graph database can also be restored directly from the compressed Neo4j dump file: TCGA_AML_neo4j.dump.gz
+1. First, decompress the file:
+   ```
+   gunzip TCGA_AML_neo4j.dump.gz
+   ```
+2. Stop the Neo4j database before restoration:
+   ```
+   neo4j stop
+   ```
+3. Restore the Neo4j database using:
+   ```
+   neo4j-admin database load neo4j --from-path=. --overwrite-destination=true
+   ```
+4. Restart Neo4j:
+    ```
+   neo4j start
+   ```
+    
 ## Documentation and Diagrams 
 - Full project write-up: `docs/TCGA AML database documentation.pdf`
 - Full Entity-relationship diagram: `diagrams/TCGA_AML_db_ERD.png`
