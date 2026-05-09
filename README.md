@@ -156,7 +156,7 @@ The entire MySQL relational database can also be reconstructed directly from the
    ```
    gunzip TCGA_AML_db.sql.gz
    ```
-2. Then load the SQL code in phpMyAdmin
+2. Then load the decompressed SQL code 
     ```
    SOURCE TCGA_AML_db.sql;
    ```
