@@ -14,6 +14,7 @@ A relational (MySQL) and graph (Neo4j) database for Acute Myeloid Leukemia (AML)
 ```text
 TCGA_AML_db/
 │
+├── TCGA_AML_db.sql.gz  ## Compressed full MySQL database export.
 ├── .gitignore
 ├── README.md
 │
